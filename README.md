@@ -21,7 +21,7 @@ Some commands you can use are listed below:
 | ```clearGrid()``` | Same effect as the Clear Grid button |
 | ```genRandomTiles()``` | Same effect as the Randomize Tiles button |
 
-### MUST CALL ```generateField()``` TO APPLY THE FOLLOWING
+### MUST CALL generateField() TO APPLY THE FOLLOWING
 
 | Command | Description |
 | ------- | ----------- |
