@@ -4,7 +4,7 @@ function setup () {
 
   createCanvas(canvX, canvY);
   frameRate(60);
-  background(50);
+  background(60);
 
   for (let y = 0; y < gridH; y++) {
     for (let x = 0; x < gridW; x++) {
@@ -15,6 +15,9 @@ function setup () {
 
   startButton = createButton("Toggle Simulation");
   startButton.mousePressed(toggleSim);
+
+  startButton = createButton("Randomize Tiles");
+  startButton.mousePressed(genRandomTiles);
 }
 
 function draw () {
@@ -42,9 +45,14 @@ function mousePressed () {
 
 function toggleSim() {
   simulating = !simulating;
+  let colMult = simulating? 4 : 1;
+  background(50 * colMult);
+  tiles.forEach(element => {
+    element.draw();
+  });
 }
 
-// Verry innefecient, but I don't care
+// Verry innefecient... But I don't care, it's only called on setup
 function getTileNeighbors () {
   tiles.forEach(tile => {
     tiles.forEach(checking => {
@@ -62,5 +70,11 @@ function getTileNeighbors () {
         }
       }
     });
+  });
+}
+
+function genRandomTiles () {
+  tiles.forEach(element => {
+    element.nextState = floor(random(2)) == 1;
   });
 }
