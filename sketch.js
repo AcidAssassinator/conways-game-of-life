@@ -1,6 +1,6 @@
 let margin = 1;
 let tiles = []
-let gridSize = 8;
+let gridSize = 12;
 
 function setup () {
   frameRate(60);
@@ -42,7 +42,7 @@ function mousePressed () {
 
 function generateField() {
   createCanvas(1200, 600);
-  
+
   background(60);
   stroke(0, 0, 0);
   strokeWeight(gridSize / 25);
