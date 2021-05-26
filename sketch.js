@@ -42,11 +42,11 @@ function generateField() {
   startButton = createButton("Toggle Simulation");
   startButton.mousePressed(toggleSim);
 
-  startButton = createButton("Clear Grid");
-  startButton.mousePressed(clearGrid);
+  clearButton = createButton("Clear Grid");
+  clearButton.mousePressed(clearGrid);
 
-  startButton = createButton("Randomize Tiles");
-  startButton.mousePressed(genRandomTiles);
+  randomizeButton = createButton("Randomize Tiles");
+  randomizeButton.mousePressed(genRandomTiles);
 }
 
 // Verry innefecient... But I don't care, it's only called on setup
