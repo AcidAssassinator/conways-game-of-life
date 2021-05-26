@@ -6,14 +6,17 @@ class Tile {
         this.canvY = gridSize + (y * gridSize);
         this.alive = false;
         this.nextState = false;
+        this.timeAlive = 0;
         this.neighbors = [];
+        this.aliveNeighbors = 0;
         this.step();
         this.draw();
     }
 
     draw() {
         let color = this.alive? 220 : 25;
-        fill(color, color, color);
+        //let color = (220) * (this.aliveNeighbors / 4) + 25
+        fill(color, color, color)
         stroke(0, 0, 0);
         strokeWeight(1);
         rect(this.canvX, this.canvY, gridSize, gridSize);
@@ -24,11 +27,11 @@ class Tile {
     }
 
     aiStep() {
-        let aliveNeighbors = this.getAliveNeighbors();
+        this.aliveNeighbors = this.getAliveNeighbors();
         if (this.alive) {
-            if (aliveNeighbors < 2 || aliveNeighbors > 3) this.setState(false);
+            if (this.aliveNeighbors < 2 || this.aliveNeighbors > 3) this.setState(false);
         } else {
-            if (aliveNeighbors == 3) this.setState(true);
+            if (this.aliveNeighbors == 3) this.setState(true);
         }
     }
 
@@ -42,6 +45,7 @@ class Tile {
 
     setState(state) {
         this.nextState = state;
+        this.timeAlive = 0;
     }
 
     applyState() {

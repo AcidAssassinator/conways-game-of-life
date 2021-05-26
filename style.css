@@ -11,7 +11,8 @@ canvas {
 
 button {
   margin: auto;
-  margin-top: 25px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   display: block;
   border: outset;
   border-width: 10px;
