@@ -6,3 +6,5 @@ Just a Conway's Game of Life clone
 
 * Displays a grid of tiles that each are their own object.
 * Click on the tiles to swap their state :)
+
+## [Link to webpage](https://ecd555assassin.github.io/acid-game-of-life/)
