@@ -5,6 +5,7 @@ class Tile {
         this.canvX = gridSize + (x * gridSize);
         this.canvY = gridSize + (y * gridSize);
         this.alive = false;
+        this.neighbors = [];
         this.step();
     }
 
@@ -17,11 +18,28 @@ class Tile {
     }
 
     step() {
-        
+        if (frameCount % 5 == 0 && simulating) this.aiStep();
         this.draw();
     }
 
-    setState(state) {
-        this.alive = state;
+    aiStep() {
+        this.setState();
+    }
+
+    getAliveNeighbors() {
+        let count = 0;
+        this.neighbors.forEach(element => {
+            count += element.alive? 1:0;
+        });
+        return count;
+    }
+
+    setState() {
+        let aliveNeighbors = this.getAliveNeighbors();
+        if (this.alive) {
+            if (aliveNeighbors < 2 || aliveNeighbors > 3) this.alive = false;
+        } else {
+            if (aliveNeighbors == 3) this.alive = true;
+        }
     }
 }
