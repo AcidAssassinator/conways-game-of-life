@@ -15,7 +15,7 @@ function draw() {
   });
 }
 
-function mousePressed() {
+function mouseClicked() {
   let x = floor(mouseX / gridSize) - 1;
   let y = floor(mouseY / gridSize) - 1;
   tiles.forEach(element => {
