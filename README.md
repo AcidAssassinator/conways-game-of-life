@@ -20,13 +20,11 @@ Some commands you can use are listed below:
 | ```toggleSim()``` | Same effect as the Toggle Simulation button |
 | ```clearGrid()``` | Same effect as the Clear Grid button |
 | ```genRandomTiles()``` | Same effect as the Randomize Tiles button |
-|
 
 ### MUST CALL ```generateField()``` TO APPLY THE FOLLOWING
 
 | Command | Description |
 | ------- | ----------- |
 | ```gridSize = x``` | Changes the size of the tiles |
-|
 
 ## [Link to webpage](https://ecd555assassin.github.io/acid-game-of-life/)
