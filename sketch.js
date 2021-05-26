@@ -15,7 +15,8 @@ function draw() {
   });
 }
 
-function mouseClicked() {
+function mousePressed() {
+  if (mouseButton != LEFT) return true;
   let x = floor(mouseX / gridSize) - 1;
   let y = floor(mouseY / gridSize) - 1;
   tiles.forEach(element => {
@@ -23,4 +24,5 @@ function mouseClicked() {
       element.setState(!element.alive);
     }
   });
+  return false;
 }
