@@ -18,6 +18,9 @@ function setup () {
   let startButton = createButton("Toggle Simulation");
   startButton.mousePressed(toggleSim);
 
+  let stepButton = createButton("Step Simulation");
+  stepButton.mousePressed(stepSim);
+
   let clearButton = createButton("Clear Grid");
   clearButton.mousePressed(clearGrid);
 
@@ -111,6 +114,13 @@ function toggleSim() {
   background(50 * colMult);
   tiles.forEach(element => {
     element.draw();
+  });
+}
+
+// Steps each tile
+function stepSim() {
+  tiles.forEach(element => {
+    element.aiStep();
   });
 }
 
