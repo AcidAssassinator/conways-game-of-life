@@ -1,7 +1,7 @@
 class Tile {
     constructor (x, y) {
-        this.gridX = x;
-        this.gridY = y;
+        this.x = x;
+        this.y = y;
         this.canvX = gridSize + (x * gridSize);
         this.canvY = gridSize + (y * gridSize);
         this.alive = false;
@@ -26,9 +26,9 @@ class Tile {
     aiStep() {
         let aliveNeighbors = this.getAliveNeighbors();
         if (this.alive) {
-            if (aliveNeighbors < 2 || aliveNeighbors > 3) this.nextState = false;
+            if (aliveNeighbors < 2 || aliveNeighbors > 3) this.setState(false);
         } else {
-            if (aliveNeighbors == 3) this.nextState = true;
+            if (aliveNeighbors == 3) this.setState(true);
         }
     }
 
