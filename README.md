@@ -27,4 +27,4 @@ Some commands you can use are listed below:
 | ------- | ----------- |
 | ```gridSize = x``` | Changes the size of the tiles |
 
-## [Link to webpage](https://ecd555assassin.github.io/acid-game-of-life/)
+## [Link to webpage](https://ecd555assassin.github.io/conways-game-of-life/)
