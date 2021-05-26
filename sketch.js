@@ -18,8 +18,13 @@ function setup () {
 }
 
 function draw () {
+
   tiles.forEach(element => {
     element.step();
+  });
+
+  tiles.forEach(element => {
+    element.applyState();
   });
 }
 
@@ -29,7 +34,7 @@ function mousePressed () {
   let y = floor(mouseY / gridSize) - 1;
   tiles.forEach(element => {
     if (element.gridX == x && element.gridY == y) {
-      element.alive = !element.alive;
+      element.setState(!element.alive);
     }
   });
   return false;
@@ -50,7 +55,7 @@ function getTileNeighbors () {
       for (let yOff = -1; yOff < 2; yOff++) {
         for (let xOff = -1; xOff < 2; xOff++) {
           let samePos = xOff == 0 && yOff == 0;
-          if (tileX + xOff == checkX &&  tileY + yOff == checkY && !samePos) tile.neighbors.push(checking);
+          if ((tileX + xOff + gridW) % gridW == checkX &&  (tileY + yOff + gridH) % gridH == checkY && !samePos) tile.neighbors.push(checking);
         }
       }
     });

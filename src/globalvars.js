@@ -1,6 +1,6 @@
-let gridSize = 50;
-let gridW = 10;
-let gridH = 10;
+let gridSize = 25;
+let gridW = 40;
+let gridH = 20;
 let tiles = [];
 
 let startButton;

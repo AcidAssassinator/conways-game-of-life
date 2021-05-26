@@ -5,8 +5,10 @@ class Tile {
         this.canvX = gridSize + (x * gridSize);
         this.canvY = gridSize + (y * gridSize);
         this.alive = false;
+        this.nextState = false;
         this.neighbors = [];
         this.step();
+        this.draw();
     }
 
     draw() {
@@ -19,11 +21,15 @@ class Tile {
 
     step() {
         if (frameCount % 5 == 0 && simulating) this.aiStep();
-        this.draw();
     }
 
     aiStep() {
-        this.setState();
+        let aliveNeighbors = this.getAliveNeighbors();
+        if (this.alive) {
+            if (aliveNeighbors < 2 || aliveNeighbors > 3) this.nextState = false;
+        } else {
+            if (aliveNeighbors == 3) this.nextState = true;
+        }
     }
 
     getAliveNeighbors() {
@@ -34,12 +40,12 @@ class Tile {
         return count;
     }
 
-    setState() {
-        let aliveNeighbors = this.getAliveNeighbors();
-        if (this.alive) {
-            if (aliveNeighbors < 2 || aliveNeighbors > 3) this.alive = false;
-        } else {
-            if (aliveNeighbors == 3) this.alive = true;
-        }
+    setState(state) {
+        this.nextState = state;
+    }
+
+    applyState() {
+        this.alive = this.nextState;
+        this.draw();
     }
 }
