@@ -17,8 +17,6 @@ class Tile {
         let color = this.alive? 220 : 25;
         //let color = (220) * (this.aliveNeighbors / 4) + 25
         fill(color, color, color)
-        stroke(0, 0, 0);
-        strokeWeight(1);
         rect(this.canvX, this.canvY, gridSize, gridSize);
     }
 
@@ -36,11 +34,7 @@ class Tile {
     }
 
     getAliveNeighbors() {
-        let count = 0;
-        this.neighbors.forEach(element => {
-            count += element.alive? 1:0;
-        });
-        return count;
+        return this.neighbors.filter(element => {return element.alive;}).length;
     }
 
     setState(state) {

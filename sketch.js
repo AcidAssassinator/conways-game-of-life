@@ -1,12 +1,17 @@
+let margin = 1;
+let tiles = []
+let gridSize = 8;
+
 function setup () {
   createCanvas(1200, 600);
 
-  gridSize = 5;
   gridW = (width / gridSize) - 2 * margin;
   gridH = (height / gridSize) - 2 * margin;
 
   frameRate(60);
   background(60);
+  stroke(0, 0, 0);
+  strokeWeight(gridSize / 25);
   generateField();
 }
 
@@ -41,13 +46,13 @@ function generateField() {
   }
   getTileNeighbors();
 
-  startButton = createButton("Toggle Simulation");
+  let startButton = createButton("Toggle Simulation");
   startButton.mousePressed(toggleSim);
 
-  clearButton = createButton("Clear Grid");
+  let clearButton = createButton("Clear Grid");
   clearButton.mousePressed(clearGrid);
 
-  randomizeButton = createButton("Randomize Tiles");
+  let randomizeButton = createButton("Randomize Tiles");
   randomizeButton.mousePressed(genRandomTiles);
 }
 
@@ -63,7 +68,7 @@ function getTileNeighbors () {
         let yOffPos = (tileY + yOff + gridH) % gridH;
         let index = xOffPos + (yOffPos * gridW);
 
-          if (!samePos) tile.neighbors.push(tiles[index]);
+        if (!samePos) tile.neighbors.push(tiles[index]);
       }
     }
   });
