@@ -3,16 +3,18 @@ let tiles = []
 let gridSize = 8;
 
 function setup () {
-  createCanvas(1200, 600);
-
-  gridW = (width / gridSize) - 2 * margin;
-  gridH = (height / gridSize) - 2 * margin;
-
   frameRate(60);
-  background(60);
-  stroke(0, 0, 0);
-  strokeWeight(gridSize / 25);
+
   generateField();
+
+  let startButton = createButton("Toggle Simulation");
+  startButton.mousePressed(toggleSim);
+
+  let clearButton = createButton("Clear Grid");
+  clearButton.mousePressed(clearGrid);
+
+  let randomizeButton = createButton("Randomize Tiles");
+  randomizeButton.mousePressed(genRandomTiles);
 }
 
 function draw () {
@@ -39,21 +41,22 @@ function mousePressed () {
 }
 
 function generateField() {
+  createCanvas(1200, 600);
+  
+  background(60);
+  stroke(0, 0, 0);
+  strokeWeight(gridSize / 25);
+
+  gridW = (width / gridSize) - 2 * margin;
+  gridH = (height / gridSize) - 2 * margin;
+
+  tiles = [];
   for (let y = 0; y < gridH; y++) {
       for (let x = 0; x < gridW; x++) {
           tiles.push(new Tile(x, y));
       }
   }
   getTileNeighbors();
-
-  let startButton = createButton("Toggle Simulation");
-  startButton.mousePressed(toggleSim);
-
-  let clearButton = createButton("Clear Grid");
-  clearButton.mousePressed(clearGrid);
-
-  let randomizeButton = createButton("Randomize Tiles");
-  randomizeButton.mousePressed(genRandomTiles);
 }
 
 function getTileNeighbors () {
