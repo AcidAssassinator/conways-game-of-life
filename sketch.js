@@ -5,19 +5,7 @@ function setup () {
   createCanvas(canvX, canvY);
   frameRate(60);
   background(60);
-
-  for (let y = 0; y < gridH; y++) {
-    for (let x = 0; x < gridW; x++) {
-      tiles.push(new Tile(x, y));
-    }
-  }
-  getTileNeighbors();
-
-  startButton = createButton("Toggle Simulation");
-  startButton.mousePressed(toggleSim);
-
-  startButton = createButton("Randomize Tiles");
-  startButton.mousePressed(genRandomTiles);
+  generateField();
 }
 
 function draw () {
@@ -43,6 +31,45 @@ function mousePressed () {
   return false;
 }
 
+function generateField() {
+  for (let y = 0; y < gridH; y++) {
+      for (let x = 0; x < gridW; x++) {
+          tiles.push(new Tile(x, y));
+      }
+  }
+  getTileNeighbors();
+
+  startButton = createButton("Toggle Simulation");
+  startButton.mousePressed(toggleSim);
+
+  startButton = createButton("Clear Grid");
+  startButton.mousePressed(clearGrid);
+
+  startButton = createButton("Randomize Tiles");
+  startButton.mousePressed(genRandomTiles);
+}
+
+// Verry innefecient... But I don't care, it's only called on setup
+function getTileNeighbors () {
+  tiles.forEach(tile => {
+      tiles.forEach(checking => {
+      let tileX = tile.x;
+      let tileY = tile.y;
+      let checkX = checking.x;
+      let checkY = checking.y;
+
+      for (let yOff = -1; yOff < 2; yOff++) {
+          for (let xOff = -1; xOff < 2; xOff++) {
+              let samePos = xOff == 0 && yOff == 0;
+              let xOffPos = (tileX + xOff + gridW) % gridW;
+              let yOffPos = (tileY + yOff + gridH) % gridH;
+              if ( xOffPos == checkX &&  yOffPos == checkY && !samePos) tile.neighbors.push(checking);
+              }
+          }
+      });
+  });
+}
+
 function toggleSim() {
   simulating = !simulating;
   let colMult = simulating? 4 : 1;
@@ -52,29 +79,14 @@ function toggleSim() {
   });
 }
 
-// Verry innefecient... But I don't care, it's only called on setup
-function getTileNeighbors () {
-  tiles.forEach(tile => {
-    tiles.forEach(checking => {
-      let tileX = tile.x;
-      let tileY = tile.y;
-      let checkX = checking.x;
-      let checkY = checking.y;
-
-      for (let yOff = -1; yOff < 2; yOff++) {
-        for (let xOff = -1; xOff < 2; xOff++) {
-          let samePos = xOff == 0 && yOff == 0;
-          let xOffPos = (tileX + xOff + gridW) % gridW;
-          let yOffPos = (tileY + yOff + gridH) % gridH;
-          if ( xOffPos == checkX &&  yOffPos == checkY && !samePos) tile.neighbors.push(checking);
-        }
-      }
-    });
+function clearGrid() {
+  tiles.forEach(element => {
+      element.setState(false);
   });
 }
 
 function genRandomTiles () {
   tiles.forEach(element => {
-    element.nextState = floor(random(2)) == 1;
+      element.nextState = floor(random(2)) == 1;
   });
 }
