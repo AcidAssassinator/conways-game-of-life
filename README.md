@@ -1,4 +1,4 @@
-# Acid's Game of Life
+# Conway's Game of Life
 
 Just a Conway's Game of Life clone
 
