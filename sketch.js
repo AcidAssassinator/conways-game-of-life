@@ -140,7 +140,7 @@ function clearGrid() {
 // Set each tile to randomly dead or alive
 function genRandomTiles () {
   tiles.forEach(element => {
-      element.nextState = floor(random(2)) == 1;
+      element.nextState = round(random()) == 1;
   });
 }
 
