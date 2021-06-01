@@ -6,25 +6,36 @@ html, body {
 
 canvas {
   margin: auto;
+  margin-top: 15px;
   display: block;
 }
 
+
+input {
+  border: none;
+  background-color:rgb(158, 158, 158);
+}
+
 button {
-  margin: auto;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  display: block;
   border: outset;
   border-width: 10px;
-  background-color:rgb(175, 175, 175) ;
-  width: 600px;
+  background-color:rgb(175, 175, 175);
+}
+
+.attributes {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 4%;
+  margin-right: 4%;
+  display: inline-block;
+  width: 40%;
   height: 100px;
   font-size: 48px;
+  text-align: center;
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 button:active {
-  border: inset;
-  border-width: 10px;
+  background-color:rgb(158, 158, 158);
   transform: translateY(4px);
 }

@@ -5,8 +5,8 @@ class Tile {
         // Positions
         this.x = x;
         this.y = y;
-        this.canvX = gridSize + (x * gridSize);
-        this.canvY = gridSize + (y * gridSize);
+        this.canvX = x * gridSize;
+        this.canvY = y * gridSize;
 
         // Current state and Next State
         this.alive = false;

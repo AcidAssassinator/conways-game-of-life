@@ -1,31 +1,33 @@
 // Global Variables
 let margin = 1;
 let tiles = []
-let gridSize = 12;
+let buttons = [];
+let gridSize = 12; 
 let gridW;
 let gridH;
 let simulating = false;
+let tileSizeInput;
+
 
 // Called on page load
 function setup () {
   frameRate(60);
 
-  // In it's own function so it can be called from
-  // the console without duplicating the buttons
+  // In its own function so it can be called without duplicating the buttons
   generateField();
 
   // Create the buttons
-  let startButton = createButton("Toggle Simulation");
-  startButton.mousePressed(toggleSim);
+  buttons.push(createButton("Toggle Simulation").mousePressed(toggleSim));
+  buttons.push(createButton("Step Simulation").mousePressed(stepSim));
+  buttons.push(createButton("Randomize Tiles").mousePressed(genRandomTiles));
+  buttons.push(createButton("Clear Grid").mousePressed(clearGrid));
+  tileSizeInput = createInput(gridSize);
+  buttons.push(tileSizeInput);
+  buttons.push(createButton("Apply").mousePressed(setTileSize));
 
-  let stepButton = createButton("Step Simulation");
-  stepButton.mousePressed(stepSim);
-
-  let clearButton = createButton("Clear Grid");
-  clearButton.mousePressed(clearGrid);
-
-  let randomizeButton = createButton("Randomize Tiles");
-  randomizeButton.mousePressed(genRandomTiles);
+  buttons.forEach(element => {
+    element.class("attributes");
+  });
 }
 
 // Called every frame
@@ -67,15 +69,19 @@ function generateField() {
   stroke(0, 0, 0);
   strokeWeight(gridSize / 25);
 
+  // Calc offset to center grid. This took too long to figure out
+  let centeredMarginX = (margin + (width % gridSize) / gridSize) / 2;
+  let centeredMarginY = (margin + (height % gridSize) / gridSize) / 2;
+
   // Calc grid dimensions
-  gridW = (width / gridSize) - 2 * margin;
-  gridH = (height / gridSize) - 2 * margin;
+  gridW = (width / gridSize) -   margin;
+  gridH = (height / gridSize) - margin;
 
   // Loop through the grid and create the tiles
   // Also adds the tiles to the tiles Array
   tiles = [];
-  for (let y = 0; y < gridH; y++) {
-      for (let x = 0; x < gridW; x++) {
+  for (let y = centeredMarginY; y < gridH; y++) {
+      for (let x = centeredMarginX; x < gridW; x++) {
           tiles.push(new Tile(x, y));
       }
   }
@@ -136,4 +142,10 @@ function genRandomTiles () {
   tiles.forEach(element => {
       element.nextState = floor(random(2)) == 1;
   });
+}
+
+// Set the size of the tiles
+function setTileSize () {
+  gridSize = parseInt(tileSizeInput.value());
+  generateField();
 }
