@@ -69,19 +69,15 @@ function generateField() {
   stroke(0, 0, 0);
   strokeWeight(gridSize / 25);
 
-  // Calc offset to center grid. This took too long to figure out
-  let centeredMarginX = (margin + (width % gridSize) / gridSize) / 2;
-  let centeredMarginY = (margin + (height % gridSize) / gridSize) / 2;
-
   // Calc grid dimensions
-  gridW = (width / gridSize) -   margin;
+  gridW = (width / gridSize) - margin;
   gridH = (height / gridSize) - margin;
 
   // Loop through the grid and create the tiles
   // Also adds the tiles to the tiles Array
   tiles = [];
-  for (let y = centeredMarginY; y < gridH; y++) {
-      for (let x = centeredMarginX; x < gridW; x++) {
+  for (let y = margin; y < gridH; y++) {
+      for (let x = margin; x < gridW; x++) {
           tiles.push(new Tile(x, y));
       }
   }
