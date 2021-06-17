@@ -48,8 +48,8 @@ function mousePressed () {
   if (mouseButton != LEFT) return true;
 
   // Find Mouse Pos
-  let x = floor(mouseX / gridSize) - margin;
-  let y = floor(mouseY / gridSize) - margin;
+  let x = round(mouseX / gridSize) - margin;
+  let y = round(mouseY / gridSize) - margin;
 
   // Swap State
   tiles.forEach(element => {
