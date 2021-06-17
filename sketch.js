@@ -1,15 +1,17 @@
 let margin = 1;
-let tiles = []
+let tiles = [];
 let buttons = [];
-let gridSize = 12; 
+let gridSize; 
 let gridW;
 let gridH;
 let simulating = false;
 let tileSizeInput;
+let loading;
 
 function setup () {
+  createCanvas(1200, 600);
   frameRate(12); // This seems to be a good speed
-  generateField();
+  setTileSize(12);
 
   // Create the buttons
   buttons.push(createButton("Toggle Simulation").mousePressed(toggleSim));
@@ -37,6 +39,8 @@ function draw () {
     if (element.nextState != element.alive)
       element.applyState();
   });
+
+  if (frameCount == 1) console.log("Finished Displaying Tiles");
 }
 
 // For swapping Tile States
@@ -57,11 +61,9 @@ function mousePressed () {
 }
 
 function generateField() {
-  createCanvas(1200, 600);
-
   background(60);
   stroke(0, 0, 0);
-  strokeWeight(gridSize / 25);
+  strokeWeight(gridSize < 10? 0 : gridSize / 25);
 
   // Calc grid dimensions
   gridW = (width / gridSize) - margin;
@@ -79,24 +81,29 @@ function generateField() {
 }
 
 function getTileNeighbors () {
-  tiles.forEach(tile => {
-    let tileX = tile.x;
-    let tileY = tile.y;
+  console.log("Begin Generating Tiles");
+  frameCount = 0;
 
+  tiles.forEach(tile => {
     // Loop through the 3x3 area around the tile
     for (let yOff = -1; yOff < 2; yOff++) {
       for (let xOff = -1; xOff < 2; xOff++) {
         // Calculate positions
-        let samePos = xOff == 0 && yOff == 0;
-        let xOffPos = (tileX + xOff + gridW) % gridW; // (pos + width) % width | Creates wrapping
-        let yOffPos = (tileY + yOff + gridH) % gridH;
+        let xOffPos = (tile.x + xOff + gridW) % gridW; // (pos + width) % width | Creates wrapping
+        let yOffPos = (tile.y + yOff + gridH) % gridH;
 
         // Push neighbors to the tile's neighbor array
+        let samePos = xOff == 0 && yOff == 0;
         let index = xOffPos + yOffPos * gridW;
         if (!samePos) tile.neighbors.push(tiles[index]);
       }
     }
   });
+
+  console.log("Finished Generating " + tiles.length + " Tiles");
+  console.groupCollapsed("Tiles Array");
+  console.table(tiles);
+  console.groupEnd();
 }
 
 function toggleSim() {
@@ -127,6 +134,19 @@ function genRandomTiles () {
 }
 
 function setTileSize (size) {
+  console.clear();
+
+  // Check size is a factor of the canvas size
+  if (!(width % size == 0 && height % size == 0)) {
+    console.log(size + " is unable to be used");
+    console.groupCollapsed("Reason");
+    console.log("Values that are not factors of the canvas size cannot be used");
+    console.log("Test: " + width + " % " + size + " = " + (width % size) + ", and " + height + " % " + size + " = " + (height % size));
+    console.groupEnd();
+    return;
+  }
+
+  // Apply the change
   gridSize = size;
   generateField();
 }
