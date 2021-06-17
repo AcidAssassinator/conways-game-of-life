@@ -126,7 +126,7 @@ function genRandomTiles () {
   });
 }
 
-function setTileSize () {
-  gridSize = parseInt(tileSizeInput.value());
+function setTileSize (size) {
+  gridSize = size;
   generateField();
 }
