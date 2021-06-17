@@ -1,4 +1,3 @@
-// Global Variables
 let margin = 1;
 let tiles = []
 let buttons = [];
@@ -8,12 +7,8 @@ let gridH;
 let simulating = false;
 let tileSizeInput;
 
-
-// Called on page load
 function setup () {
-  frameRate(60);
-
-  // In its own function so it can be called without duplicating the buttons
+  frameRate(12); // This seems to be a good speed
   generateField();
 
   // Create the buttons
@@ -21,21 +16,21 @@ function setup () {
   buttons.push(createButton("Step Simulation").mousePressed(stepSim));
   buttons.push(createButton("Randomize Tiles").mousePressed(genRandomTiles));
   buttons.push(createButton("Clear Grid").mousePressed(clearGrid));
+  /* !!! CURRENTLY BREAKS LOGIC UNLESS SIZE IS A FACTOR OF CANVAS SIZE !!!
   tileSizeInput = createInput(gridSize);
   buttons.push(tileSizeInput);
   buttons.push(createButton("Apply").mousePressed(setTileSize));
+  */
 
   buttons.forEach(element => {
     element.class("attributes");
   });
 }
 
-// Called every frame
 function draw () {
-  // Call step for each tile
-  tiles.forEach(element => {
-    element.step();
-  });
+  if (simulating) {
+    stepSim();
+  }
 
   // Apply the new tile's state if it's state changed
   tiles.forEach(element => {
@@ -44,24 +39,23 @@ function draw () {
   });
 }
 
-// Placing and removing tiles
+// For swapping Tile States
 function mousePressed () {
-  if (mouseButton != LEFT) return true;   // Only allow left clicking
+  if (mouseButton != LEFT) return true;
 
-  // Convert canvas pos to grid pos
+  // Find Mouse Pos
   let x = floor(mouseX / gridSize) - margin;
   let y = floor(mouseY / gridSize) - margin;
 
-  // Swap the state of the tile that is clicked
+  // Swap State
   tiles.forEach(element => {
-    if (element.x == x && element.y == y) {   // Check if mouse pos matches one of the tile's pos
+    if (element.x == x && element.y == y) {
       element.setState(!element.alive);
     }
   });
   return false;
 }
 
-// Create the grid
 function generateField() {
   createCanvas(1200, 600);
 
@@ -73,11 +67,10 @@ function generateField() {
   gridW = (width / gridSize) - margin;
   gridH = (height / gridSize) - margin;
 
-  // Loop through the grid and create the tiles
-  // Also adds the tiles to the tiles Array
+  // Create Tiles
   tiles = [];
-  for (let y = margin; y < gridH; y++) {
-      for (let x = margin; x < gridW; x++) {
+  for (let y = 0; y < gridH; y++) {
+      for (let x = 0; x < gridW; x++) {
           tiles.push(new Tile(x, y));
       }
   }
@@ -85,7 +78,6 @@ function generateField() {
   getTileNeighbors();
 }
 
-// Get the neighbors for each tile
 function getTileNeighbors () {
   tiles.forEach(tile => {
     let tileX = tile.x;
@@ -99,17 +91,14 @@ function getTileNeighbors () {
         let xOffPos = (tileX + xOff + gridW) % gridW; // (pos + width) % width | Creates wrapping
         let yOffPos = (tileY + yOff + gridH) % gridH;
 
-        // Calculate the index of the neighbor (x + width * y)
+        // Push neighbors to the tile's neighbor array
         let index = xOffPos + yOffPos * gridW;
-
-        // Push the neighbors into an Array for the tile
         if (!samePos) tile.neighbors.push(tiles[index]);
       }
     }
   });
 }
 
-// Toggle simulating and redraw tiles
 function toggleSim() {
   simulating = !simulating;
   let colMult = simulating? 4 : 1;
@@ -119,28 +108,24 @@ function toggleSim() {
   });
 }
 
-// Steps each tile
 function stepSim() {
   tiles.forEach(element => {
-    element.aiStep();
+    element.step();
   });
 }
 
-// Set each tile's state to dead
 function clearGrid() {
   tiles.forEach(element => {
       element.setState(false);
   });
 }
 
-// Set each tile to randomly dead or alive
 function genRandomTiles () {
   tiles.forEach(element => {
-      element.nextState = round(random()) == 1;
+      element.nextState = floor(random(3)) == 1;  // 1/3 looks nicer than 1/2
   });
 }
 
-// Set the size of the tiles
 function setTileSize () {
   gridSize = parseInt(tileSizeInput.value());
   generateField();
